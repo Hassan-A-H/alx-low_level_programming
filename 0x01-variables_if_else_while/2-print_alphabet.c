@@ -5,8 +5,8 @@
  *
  * Description:
  * This C program initializes a character variable with 'a'
- * and uses a while loop to print the lowercase English alphabet from 'a' to 'z'
- * After printing the alphabet,
+ * and uses a while loop to print the lowercase English alphabet
+ * from 'a' to 'z', After printing the alphabet,
  * it adds a newline character to move to the next line.
  *
  * Return:
