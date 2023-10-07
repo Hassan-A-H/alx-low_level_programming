@@ -8,7 +8,7 @@
  * Description:
  * This C program generates a random integer, evaluates its last digit,
  * and prints a message indicating whether the last digit is greater than 5,
- * equal to 0, or less than 6 and not equal to 0 to the standard output (stdout)
+ * equal to 0, or less than 6 and not equal to 0 to the standard output
  * Return:
  * The program returns 0 to indicate successful execution.
  */
