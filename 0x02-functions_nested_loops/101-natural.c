@@ -1,24 +1,36 @@
 #include <stdio.h>
 
 
+void multiple_3_5(int n);
+
 /**
- * multiple_3_5 - Calculates the sum of multiples of 3 or 5 below a given number
- *
- * @n: The upper limit for finding multiples
+ * main - Entry point of the program
  *
  * Description:
- * This function calculates the sum of all multiples of 3 or 5 that are less
- * than the given number 'n'. It uses a loop to iterate through numbers from 0
- * to 'n - 1' and adds the multiples to a running sum. The final sum is printed.
+ * The main function serves as the entry point for the program. It calls the
+ * `multiple_3_5` function with a specific value (in this case, 1024) to find
+ * the sum of all multiples of 3 or 5 below that value. The result is printed
+ * to the standard output, and the program returns 0 to indicate successful
+ * execution.
+ *
+ * Return: Always returns 0 to indicate successful program execution.
  */
-
-void multiple_3_5(int);
-
 int main(void)
 {
 	multiple_3_5(1024);
 	return (0);
 }
+
+/**
+ * multiple_3_5 - Calculates the sum of multiples of 3 or 5 below a given num.
+ *
+ * @n: The upper limit for finding multiples.
+ *
+ * Description:
+ * This function calculates the sum of all multiples of 3 or 5 that are less
+ * than the given number 'n'. It uses a loop to iterate through numbers from 0
+ * to 'n - 1' and adds the multiples to a running sum. The final sum is printed
+ */
 
 void multiple_3_5(int n)
 {
