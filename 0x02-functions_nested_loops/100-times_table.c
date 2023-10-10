@@ -1,9 +1,20 @@
 #include "main.h"
 
 
+/**
+ * print_times_table - Prints a multiplication table for numbers 0 to n
+ *
+ * @n: The maximum value for the table (0 to 15)
+ *
+ * Description:
+ * This function prints a well-formatted multiplication table for numbers
+ * from 0 to 'n', inclusive. It checks if 'n' is within the valid range
+ * and prints the table accordingly.
+ */
+
 void print_times_table(int n)
 {
-	int i, j, k, m;
+	int i, j, result;
 
 	if (n >= 0 && n <= 15)
 	{
@@ -11,33 +22,30 @@ void print_times_table(int n)
 		{
 			for (j = 0; j <= n; j++)
 			{
-				k = i * j;
-				m = k / 10;
+				result = i * j;
 				if (j == 0)
-				{
 					_putchar('0');
-				}
 				else
 				{
 					_putchar(',');
 					_putchar(' ');
-					if (k > 99)
+					if (result > 99)
 					{
-						_putchar(k / 100 + '0');
-						_putchar(m % 10 + '0');
-						_putchar(k % 10 + '0');
+						_putchar(result / 100 + '0');
+						_putchar((result / 10) % 10 + '0');
+						_putchar(result % 10 + '0');
 					}
-					else if (k > 9 && k < 100)
+					else if (result > 9 && result < 100)
 					{
 						_putchar(' ');
-						_putchar(k / 10 + '0');
-						_putchar(k % 10 + '0');
+						_putchar(result / 10 + '0');
+						_putchar(result % 10 + '0');
 					}
 					else
 					{
 						_putchar(' ');
 						_putchar(' ');
-						_putchar(k + '0');
+						_putchar(result + '0');
 					}
 				}
 			}
