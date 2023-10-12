@@ -17,7 +17,7 @@
  * 1 if @c is an uppercase letter, 0 otherwise.
  */
 
-INT _isupper(int c)
+int _isupper(int c)
 {
 	if (c >= 65 && c <= 90)
 		return (1);
