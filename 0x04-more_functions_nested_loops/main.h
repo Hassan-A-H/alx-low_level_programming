@@ -1,6 +1,9 @@
 #ifndef _MAIN_H
 #define _MAIN_H
 
+#include <stdio.h>
+#include <math.h>
+
 int _isupper(int c);
 int _putchar(char c);
 int _isdigit(int c);
