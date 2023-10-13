@@ -1,56 +1,45 @@
 #include <stdio.h>
-
-void fibonacci(int n);
-
 /**
- * main - Entry point of the program, finds and
- * prints the Fibonacci sequence.
- *
- * Description:
- * The main function serves as the entry point for the program.
- * It calls the `fibonacci` function with the number 98 to calculate and
- * print the 50th number in the Fibonacci sequence. The result is printed
- * to the standard output, and the program returns 0 to indicate
- * successful execution.
- *
- * Return: Always returns 0 to indicate successful program execution.
+ *main - prints out first 98
+ *fibonacci suit numbers
+ *Return: return 0
  */
-
 int main(void)
 {
-	fibonacci(98);
-	return (0);
-}
+	int inc;
+	unsigned long n1 = 0, n2 = 1, n3;
+	unsigned long n1_h1, n1_h2, n2_h1, n2_h2;
+	unsigned long h1, h2;
 
-
-/**
- * fibonacci - Calculates and prints the Fibonacci sequence up to a given term.
- *
- * @n: The term in the Fibonacci sequence to calculate.
- *
- * Description:
- * This function calculates and prints the Fibonacci sequence up to
- * the 'n'-th term. It starts with the first two terms (0 and 1)
- * and iteratively calculates the next term by adding the current and previous
- * terms. The final term is printed to the standard output.
- */
-
-void fibonacci(int n)
-{
-	unsigned long next_num, cur_num, prev_num;
-	int i;
-
-	cur_num = 1;
-	prev_num = 0;
-	for (i = 0; i < n; i++)
+	for (inc = 0; inc < 92; inc++)
 	{
-		next_num = cur_num + prev_num;
-		prev_num = cur_num;
-		cur_num = next_num;
-		if (i == n - 1)
-			printf("%lu", next_num);
-		else
-			printf("%lu, ", next_num);
+		n3 = n1 + n2;
+		printf("%lu, ", n3);
+		n1 = n2;
+		n2 = n3;
+	}
+	n1_h1 = n1 / 10000000000;
+	n2_h1 = n2 / 10000000000;
+	n1_h2 = n1 % 10000000000;
+	n2_h2 = n2 % 10000000000;
+	for (inc = 93; inc < 99; inc++)
+	{
+		h1 = n1_h1 + n2_h1;
+		h2 = n1_h2 + n2_h2;
+		if ((n1_h2 + n2_h2) > 9999999999)
+		{
+			h1 += 1;
+			h2 %= 10000000000;
+		}
+		printf("%lu%lu", h1, h2);
+		if (inc != 98)
+			printf(", ");
+
+		n1_h1 = n2_h1;
+		n1_h2 = n2_h2;
+		n2_h1 = h1;
+		n2_h2 = h2;
 	}
 	printf("\n");
+	return (0);
 }
