@@ -1,59 +1,48 @@
 #include "main.h"
 
 /**
-* infinite_add - C function that adds two numbers stored
-*in strings to a buffer.
-*Assumes that strings are never empty and
-*that numbers will always be positive, or 0.
-*Assumes there are only digits stored in the number strings.
-*If result can be stored in the buffer,
-*returns a pointer to the result.
-*If result cannot be stored in the buffer, returns `0`.
-*@n1:first number to be added
-*@n2:second number to be added
-*@r: store result
-*@size_r: size of buffer
-*Return:returns pointer to result
-*/
+ * infinite_add - Adds two numeric strings and stores the result.
+ * @n1: The first numeric string.
+ * @n2: The second numeric string.
+ * @r: The buffer to store the result.
+ * @size_r: The size of the result buffer.
+ *
+ * Return: A pointer to the result, or 0 if result doesn't fit.
+ */
 
 char *infinite_add(char *n1, char *n2, char *r, int size_r)
 {
-}
+	int len1, len2, sum, carry;
+	int i, j, k, digit1, digit2, temp;
 
-/**
-* add_strings - Adds the numbers stored in two strings.
-* @n1: The string containing the first number to be added.
-* @n2: The string containing the second number to be added.
-* @r: The buffer to store the result.
-* @r_index: The current index of the buffer.
-*
-* Return: If r can store the sum - a pointer to the result.
-*         If r cannot store the sum - 0.
-*/
-
-char *add_strings(char *n1, char *n2, char *r, int r_index)
-{
-	int num, tens = 0;
-
-	for (; *n1 && *n2; n1--, n2--, r_index--)
+	len1 = 0;
+	while (n1[len1] != '\0')
+		len1++;
+	len2 = 0;
+	while (n2[len2] != '\0')
+		len2++;
+	if (size_r <= len1 + 1 || size_r <= len2 + 1)
+		return (0);
+	sum = 0;
+	carry = 0;
+	for (i = len1 - 1, j = len2 - 1, k = 0; i >= 0 || j >= 0 || carry; i--,
+		     j--, k++)
 	{
-		num = (*n1 - '0') + (*n2 - '0');
-		num += tens;
-		*(r + r_index) = (num % 10) + '0';
-		tens = num / 10;
+		digit1 = (i >= 0) ? n1[i] - '0' : 0;
+		digit2 = (j >= 0) ? n2[j] - '0' : 0;
+
+		sum = digit1 + digit2 + carry;
+		carry = sum / 10;
+		r[k] = sum % 10 + '0';
 	}
 
-	for (; *n1; n1--; r_index++)
-	{
-		num = *(n1 - '0') + tens;
-		*(r + r_index) = (num % 10) + '0';
-		tens = num / 10;
-	}
+	r[k] = '\0';
 
-	for (; *n2; n2--;  r_index--)
+	for (i = 0, j = k - 1; i < k / 2; i++, j--)
 	{
-		num = (*n2 - '0') + tens;
-		*(r + r_index) = (num % 10) + '0';
-		tens = num / 10;
+		temp = r[i];
+		r[i] = r[j];
+		r[j] = temp;
 	}
+	return (r);
 }
