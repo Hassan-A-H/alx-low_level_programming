@@ -15,7 +15,7 @@ char *_strstr(char *haystack, char *needle)
 	{
 		const char *h = haystack;
 		const char *n = needle;
-		
+
 		while (*n && *n == *h)
 		{
 			n++;
