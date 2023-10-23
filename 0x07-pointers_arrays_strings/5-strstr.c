@@ -11,19 +11,18 @@
 
 char *_strstr(char *haystack, char *needle)
 {
-	int i;
-
 	while (*haystack)
 	{
-		i = 0;
-		while (*needle && *needle == *haystack)
+		const char *h = haystack;
+		const char *n = needle;
+		
+		while (*n && *n == *h)
 		{
-			needle++;
-			haystack++;
-			i++;
+			n++;
+			h++;
 		}
-		if (*needle == '\0')
-			return (haystack - i);
+		if (*n == '\0')
+			return (haystack);
 		haystack++;
 	}
 	return (NULL);
