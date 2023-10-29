@@ -10,7 +10,7 @@
 
 int main(int argc, char *argv[])
 {
-	int i, j, product;
+	int i, j, mul;
 
 	if (argc <= 2)
 	{
@@ -20,8 +20,8 @@ int main(int argc, char *argv[])
 
 	i = atoi(argv[1]);
 	j = atoi(argv[2]);
-	product = i * j;
+	mul = i * j;
 
-	printf("%d\n", product);
+	printf("%d\n", mul);
 	return (0);
 }
