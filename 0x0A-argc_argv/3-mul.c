@@ -5,23 +5,24 @@
 *of two numbers
 *@argc: number of arguments
 *@argv: array of arguments
-*Return: returns 0
+*Return: returns 0-success, non-zero-fail
 */
 
 int main(int argc, char *argv[])
 {
 	int i, j, mul;
 
-	if (argc <= 2)
+	if (argc < 3)
 	{
 		printf("Error\n");
 		return (1);
 	}
-
-	i = atoi(argv[1]);
-	j = atoi(argv[2]);
-	mul = i * j;
-
-	printf("%d\n", mul);
+	else
+	{
+		i = atoi(argv[1]);
+		j = atoi(argv[2]);
+		mul = i * j;
+		printf("%d\n", mul);
+	}
 	return (0);
 }
