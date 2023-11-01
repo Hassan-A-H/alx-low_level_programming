@@ -1,4 +1,5 @@
 #include "main.h"
+
 /**
 * argstostr - a function that concatenates all the arguments of your program
 *@ac: count of args passed to the function
@@ -9,48 +10,44 @@
 
 char *argstostr(int ac, char **av)
 {
-		char *new_string = NULL;
-		int k = 0, i = ac, j, sum = 0, temp = 0;
+	int total, i, j;
+	char *arg, *result;
 
-		if (ac == 0 || av == NULL)
-			return (NULL);
-
-		while (ac--)
-			sum += (len(av[ac]) + 1);
-		new_string = (char *) malloc(sum + 1);
-
-		if (new_string != NULL)
+	if (ac == 0 || av == NULL)
+		return (NULL);
+	total = 0;
+	for (i = 0; i < ac; i++)
+	{
+		arg = av[i];
+		if (arg)
 		{
-			while (k < i)
+			while (*arg != '\0')
 			{
-				for (j = 0; av[k][j] != '\0'; j++)
-					new_string[j + temp] = av[k][j];
-				new_string[temp + j] = '\n';
-				temp += (j + 1);
-				k++;
+				total++;
+				arg++;
 			}
-			new_string[temp] = '\0';
+			total++;
 		}
-		else
+	}
+	result = (char *)malloc(total + 1);
+	if (result == NULL)
+		return (NULL);
+	j = 0;
+	for (i = 0; i < ac; i++)
+	{
+		arg = av[i];
+		if (arg)
 		{
-			return (NULL);
+			while (*arg != '\0')
+			{
+				result[j] = *arg;
+				j++;
+				arg++;
+			}
+			result[j] = '\n';
+			j++;
 		}
-		return (new_string);
-}
-
-/**
-*len - returns length of str
-*@str: string counted
-*Return: returns the length
-*/
-int len(char *str)
-{
-		int len = 0;
-
-		if (str != NULL)
-		{
-			while (str[len])
-				len++;
-		}
-	return (len);
+	}
+	result[j] = '\0';
+	return (result);
 }
