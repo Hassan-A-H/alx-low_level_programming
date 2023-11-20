@@ -6,19 +6,22 @@
 *
 *Return: void
 */
+
 void free_listint2(listint_t **head)
 {
-	listint_t *curr = *head;
-	listint_t *temp;
+	listint_t *cursor;
+	listint_t **temp = head;
 
-	if (head != NULL || *head == NULL)
+	if (temp != NULL)
 	{
-		while (curr != NULL)
+		while (*head != NULL)
 		{
-			temp = curr;
-			curr = curr->next;
-			free(temp);
+			cursor = *head;
+			free(cursor);
+			*head = (*head)->next;
 		}
-		*head = NULL;
+
+		*temp = NULL;
+
 	}
 }
