@@ -33,17 +33,21 @@ size_t print_listint_safe(const listint_t *head)
 		{
 			printf("[%p] %d\n", (void *)slow, slow->n);
 			printf("[%p] %d\n", (void *)slow, slow->next->n);
-			printf("-> [%p] %d\n", (void *)slow, slow->next-> \
-			       next->n);
+			printf("-> [%p] %d\n", (void *)slow, slow->next->next->n);
 			exit(98);
 		}
 	}
 
 
-	return count;
+	return (count);
 }
 
-
+/**
+ * has_loop - check if list has endless loop.
+ * @head: A pointer to first Node.
+ *
+ * Return: 1 on success and 0 on fail
+ */
 int has_loop(const listint_t *head)
 {
 	const listint_t *slow = head;
