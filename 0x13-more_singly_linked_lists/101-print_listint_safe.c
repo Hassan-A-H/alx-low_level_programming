@@ -1,67 +1,61 @@
 #include "lists.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 /**
- * print_listint_safe - prints a listint_t linked list safely
- * @head: pointer to the head of the list
+ * _r - reallocates memory for an array of pointers
+ * to the nodes in a linked list
+ * @list: the old list to append
+ * @size: size of the new list (always one more than the old list)
+ * @new: new node to add to the list
+ *
+ * Return: pointer to the new list
+ */
+const listint_t **_r(const listint_t **list, size_t size, const listint_t *new)
+{
+	const listint_t **newlist;
+	size_t i;
+
+	newlist = malloc(size * sizeof(listint_t *));
+	if (newlist == NULL)
+	{
+		free(list);
+		exit(98);
+	}
+	for (i = 0; i < size - 1; i++)
+		newlist[i] = list[i];
+	newlist[i] = new;
+	free(list);
+	return (newlist);
+}
+
+/**
+ * print_listint_safe - prints a listint_t linked list.
+ * @head: pointer to the start of the list
  *
  * Return: the number of nodes in the list
  */
 size_t print_listint_safe(const listint_t *head)
 {
-	const listint_t *slow = head;
-	const listint_t *fast = head;
-	size_t count = 0;
+	size_t i, num = 0;
+	const listint_t **list = NULL;
 
-	if (!has_loop(head))
+	while (head != NULL)
 	{
-		while (slow != NULL)
+		for (i = 0; i < num; i++)
 		{
-			printf("[%p] %d\n", (void *)slow, slow->n);
-			slow = slow->next;
-			count++;
+			if (head == list[i])
+			{
+				printf("-> [%p] %d\n", (void *)head, head->n);
+				free(list);
+				return (num);
+			}
 		}
-		return (count);
+		num++;
+		list = _r(list, num, head);
+		printf("[%p] %d\n", (void *)head, head->n);
+		head = head->next;
 	}
-
-	while (1)
-	{
-		printf("[%p] %d\n", (void *)slow, slow->n);
-		slow = slow->next;
-		fast = fast->next->next;
-		count++;
-		if (slow == fast)
-		{
-			printf("[%p] %d\n", (void *)slow, slow->n);
-			printf("[%p] %d\n", (void *)slow, slow->next->n);
-			printf("-> [%p] %d\n", (void *)slow, slow->next->next->n);
-			exit(98);
-		}
-	}
-
-
-	return (count);
-}
-
-/**
- * has_loop - check if list has endless loop.
- * @head: A pointer to first Node.
- *
- * Return: 1 on success and 0 on fail
- */
-int has_loop(const listint_t *head)
-{
-	const listint_t *slow = head;
-	const listint_t *fast = head;
-
-	while (slow != NULL && fast != NULL && fast->next != NULL)
-	{
-		slow = slow->next;
-		fast = fast->next->next;
-
-		if (slow == fast)
-		{
-			return (1);
-		}
-	}
-	return (0);
+	free(list);
+	return (num);
 }
