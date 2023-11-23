@@ -8,15 +8,7 @@
  */
 void print_binary(unsigned long int n)
 {
-	unsigned long int result = 0;
-	unsigned long int place = 1;
-
-	while (n)
-	{
-		if (n & 1)
-			result = 1 * place + result;
-		n >>= 1;
-		place *= 10;
-	}
-	printf("%ld\n", result);
+	if (n > 1)
+		print_binary(n >> 1);
+	_putchar((n & 1) + '0');
 }
