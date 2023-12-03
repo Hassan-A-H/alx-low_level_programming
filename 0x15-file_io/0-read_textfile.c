@@ -1,5 +1,4 @@
 #include "main.h"
-#include <stdlib.h>
 
 /**
  * read_textfile - Reads a text file and prints it to POSIX stdout.
@@ -12,28 +11,27 @@
  */
 ssize_t read_textfile(const char *filename, size_t letters)
 {
-	ssize_t o, r, w;
-	char *buffer;
+	int fd;
+	size_t w;
+	ssize_t r;
+	char *buf = NULL;
 
 	if (filename == NULL)
 		return (0);
-
-	buffer = malloc(sizeof(char) * letters);
-	if (buffer == NULL)
+	buf = malloc(sizeof(char) * letters);
+	if (buf == NULL)
 		return (0);
-
-	o = open(filename, O_RDONLY);
-	r = read(o, buffer, letters);
-	w = write(STDOUT_FILENO, buffer, r);
-
-	if (o == -1 || r == -1 || w == -1 || w != r)
-	{
-		free(buffer);
+	fd = open(filename, O_RDWR);
+	if (fd == -1)
 		return (0);
-	}
+	r = read(fd, buf, letters);
+	if (r == -1)
+		return (0);
+	w = write(STDOUT_FILENO, buf, letters);
+	if (w < letters)
+		return (0);
+	free(buf);
+	close(fd);
 
-	free(buffer);
-	close(o);
-
-	return (w);
+	return (r);
 }
