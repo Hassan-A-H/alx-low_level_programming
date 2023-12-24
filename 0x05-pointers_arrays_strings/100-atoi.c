@@ -14,8 +14,8 @@ int _atoi(char *s)
 		return (0);
 	for (i = 0; s[i]; i++)
 	{
-		if ((num == INT_MAX / 10) && (s[i] - '0') > INT_MAX % 10 )
-			return ((n_sign == 1)? INT_MAX : INT_MIN);
+		if ((num == INT_MAX / 10) && (s[i] - '0') > INT_MAX % 10)
+			return ((n_sign == 1) ? INT_MAX : INT_MIN);
 		if (s[i] == '-')
 			n_sign = n_sign * -1;
 		else if (s[i] >= '0' && s[i] <= '9')
