@@ -1,42 +1,69 @@
 #include "lists.h"
 
-/**
-* print_listint_safe - Prints a listint_t linked list
-*
-* @head: listint_t head
-*
-* Return: size_t
-*/
-
+int loop_exist(const listint_t *head);
 
 size_t print_listint_safe(const listint_t *head)
 {
-	size_t count1 = 0, count2;
-	const listint_t *temp = head;
-	const listint_t *next_node;
+	const listint_t *fast = head;
+	const listint_t *slow = head;
+	size_t sum = 0, count1 = 1, count2 = 0, i = 0;
 
-	while (temp != NULL)
+	if (loop_exist(head))
 	{
-		printf("[%p] %d\n", (void *)temp, temp->n);
-
-		count1++;
-
-		temp = temp->next;
-		next_node = head;
-
-		count2 = 0;
-
-		while (count2 < count1)
+		while (slow && fast && fast->next)
 		{
-			if (temp == next_node)
+			slow = slow->next;
+			fast = fast->next->next;
+			if (slow == fast)
 			{
-				printf("-> [%p] %d\n", (void *)temp, temp->n);
-				return (count1);
+				fast = fast->next;
+				while(slow != fast)
+				{
+					count1++;
+					fast = fast->next;
+				}
+				slow = head;
+				while (slow != fast)
+				{
+					slow = slow->next;
+					fast = fast->next;
+					count2++;
+				}
+				sum = count1 + count2;
+				break;
 			}
-
-			next_node = next_node->next;
-			count2++;
+		}
+		slow = head;
+		while (i < sum)
+		{
+			printf("[%p] %d\n", (void *)slow, slow->n);
+			slow = slow->next;
+			i++;
+		}
+		printf("-> [%p] %d\n", (void *)fast, fast->n);
+	}
+	else
+	{
+		while (slow)
+		{
+			printf("[%p] %d\n", (void *)slow, slow->n);
+			slow = slow->next;
+			sum++;
 		}
 	}
-	return (count1);
+	return (sum);
+}
+
+int loop_exist(const listint_t *head)
+{
+	const listint_t *fast = head;
+	const listint_t *slow = head;
+	while (slow && fast && fast->next)
+	{
+		slow = slow->next;
+		fast = fast->next->next;
+		if (slow == fast)
+			return (1);
+	}
+	return (0);
 }
