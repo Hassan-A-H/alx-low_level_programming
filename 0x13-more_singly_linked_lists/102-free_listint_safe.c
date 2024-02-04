@@ -17,7 +17,7 @@ size_t free_listint_safe(listint_t **h)
 	if (*h == NULL)
 		return (0);
 
-	while (fast && fast->next)
+	while (slow && fast && fast->next)
 	{
 		slow = slow->next;
 		fast = fast->next->next;
