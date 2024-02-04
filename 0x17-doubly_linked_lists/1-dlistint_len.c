@@ -6,19 +6,17 @@
  *
  * Return: number of nodes
  */
-
 size_t dlistint_len(const dlistint_t *h)
 {
-	int counter = 0;
+	size_t count = 0;
 
 	if (h == NULL)
-		return (counter);
+		return (count);
 
-	while (h != NULL)
+	while (h)
 	{
-		counter++;
+		count++;
 		h = h->next;
 	}
-
-	return (counter);
+	return (count);
 }
