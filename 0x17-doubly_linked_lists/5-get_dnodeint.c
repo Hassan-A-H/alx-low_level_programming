@@ -8,19 +8,16 @@
  * Return: if the node does not exist, return NULL
  *          where index is the index of the node, starting from 0
  */
-
 dlistint_t *get_dnodeint_at_index(dlistint_t *head, unsigned int index)
 {
-	dlistint_t *current;
-	unsigned int i;
+	unsigned int i = 0;
+	dlistint_t *cur = head;
 
-	current = head;
-	i = 0;
-	while (current != NULL)
+	while (cur)
 	{
-		if (i == index)
-			return (current);
-		current = current->next;
+		if (index == i)
+			return (cur);
+		cur = cur->next;
 		i++;
 	}
 	return (NULL);
