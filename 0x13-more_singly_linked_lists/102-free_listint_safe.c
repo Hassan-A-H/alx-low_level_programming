@@ -1,54 +1,65 @@
 #include "lists.h"
+#include <stdlib.h>
+#include <stdio.h>
+
+/**
+ * _ra - reallocates memory for an array of pointers
+ * to the nodes in a linked list
+ * @list: the old list to append
+ * @size: size of the new list (always one more than the old list)
+ * @new: new node to add to the list
+ *
+ * Return: pointer to the new list
+ */
+listint_t **_ra(listint_t **list, size_t size, listint_t *new)
+{
+	listint_t **newlist;
+	size_t i;
+
+	newlist = malloc(size * sizeof(listint_t *));
+	if (newlist == NULL)
+	{
+		free(list);
+		exit(98);
+	}
+	for (i = 0; i < size - 1; i++)
+		newlist[i] = list[i];
+	newlist[i] = new;
+	free(list);
+	return (newlist);
+}
 
 /**
  * free_listint_safe - frees a listint_t linked list.
- * @h: double pointer to the start of the list
+ * @head: double pointer to the start of the list
  *
  * Return: the number of nodes in the list
  */
-size_t free_listint_safe(listint_t **h)
+size_t free_listint_safe(listint_t **head)
 {
-	listint_t *fast = *h;
-	listint_t *slow = *h;
-	listint_t *temp;
-	size_t sum = 0;
-	int flag = 0;
+	size_t i, num = 0;
+	listint_t **list = NULL;
+	listint_t *next;
 
-	if (*h == NULL)
-		return (0);
-
-	while (slow && fast && fast->next)
+	if (head == NULL || *head == NULL)
+		return (num);
+	while (*head != NULL)
 	{
-		slow = slow->next;
-		fast = fast->next->next;
-		if (fast == slow)
+		for (i = 0; i < num; i++)
 		{
-			flag = 1;
-			break;
+			if (*head == list[i])
+			{
+				*head = NULL;
+				free(list);
+				return (num);
+			}
 		}
+		num++;
+		list = _ra(list, num, *head);
+		next = (*head)->next;
+		free(*head);
+		*head = next;
 	}
-	if (flag)
-	{
-		slow = *h;
-		if (slow == fast)
-		{
-			fast = fast->next;
-			while (fast->next != slow)
-				fast = fast->next;
-		}
-		else if (slow->next != fast->next)
-		{
-			slow = slow->next;
-			fast = fast->next;
-		}
-		fast->next = NULL;
-	}
-	while (*h)
-	{
-		temp = *h;
-		*h = (*h)->next;
-		free(temp);
-		sum++;
-	}
-	return (sum);
+	free(list);
+	return (num);
 }
