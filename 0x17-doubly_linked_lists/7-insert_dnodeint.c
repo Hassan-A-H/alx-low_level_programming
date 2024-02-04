@@ -1,59 +1,52 @@
 #include "lists.h"
 
 /**
- * insert_dnodeint_at_index - inserts a new node at a given position
- * @h: double pointer to the beginning of the linked list
- * @idx: index at which to insert the new node
- * @n: data to enter into new node
- *
- * Return: pointer to the new node, or NULL on failure
+ * insert_dnodeint_at_index - inserts a new node at a given position.
+ * @h: double pointer to the head of the list.
+ * @idx: index of the list where the new node should be added.
+ * @n: value to store in the new node.
+ * Return: the address of the new node, or NULL if it failed
  */
 dlistint_t *insert_dnodeint_at_index(dlistint_t **h, unsigned int idx, int n)
 {
-	dlistint_t *new, *cur = *h;
-	unsigned int i = 0;
+	dlistint_t *new_node, *temp = *h;
+	unsigned int i;
 
 	if (h == NULL)
 		return (NULL);
-	new = malloc(sizeof(dlistint_t));
-	if (new == NULL)
+
+	new_node = malloc(sizeof(dlistint_t));
+	if (new_node == NULL)
 		return (NULL);
-	new->n = n;
-	while (cur)
+	new_node->n = n;
+	new_node->prev = NULL;
+	new_node->next = NULL;
+
+	if (idx == 0)
 	{
-		if (idx == 0)
-		{
-			new->next = cur;
-			new->prev = cur->prev;
-			cur->prev = new;
-			*h = new;
-			return (new);
-		}
-		if (idx == i)
-		{
-			new->next = cur;
-			new->prev = cur->prev;
-			cur->prev->next = new;
-			cur->prev = new;
-			return (new);
-		}
-		if (idx == (i + 1))
-		{
-			new->next = cur->next;
-			new->prev = cur;
-			cur->next = new;
-			return (new);
-		}
-		cur = cur->next;
-		i++;
+		new_node->next = *h;
+		if (*h != NULL)
+			(*h)->prev = new_node;
+		*h = new_node;
+		return (new_node);
 	}
-	cur = *h;
-	if (cur == NULL && idx == 0)
+
+	for (i = 0; i < idx - 1 && temp != NULL; i++)
 	{
-		new->next = cur;
-		new->prev = cur;
-		*h = new;
-		return (new);
+		temp = temp->next;
 	}
-	return (NULL);
+
+	if (temp == NULL)
+	{
+		free(new_node);
+		return (NULL);
+	}
+
+	new_node->next = temp->next;
+	if (temp->next != NULL)
+		temp->next->prev = new_node;
+	temp->next = new_node;
+	new_node->prev = temp;
+
+	return (new_node);
 }
