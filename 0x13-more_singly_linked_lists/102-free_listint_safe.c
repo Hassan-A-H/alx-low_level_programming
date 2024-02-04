@@ -30,7 +30,13 @@ size_t free_listint_safe(listint_t **h)
 	if (flag)
 	{
 		slow = *h;
-		if (slow->next != fast->next)
+		if (slow == fast)
+		{
+			fast = fast->next;
+			while (fast->next != slow)
+				fast = fast->next;
+		}
+		else if (slow->next != fast->next)
 		{
 			slow = slow->next;
 			fast = fast->next;
@@ -40,7 +46,7 @@ size_t free_listint_safe(listint_t **h)
 	while (*h)
 	{
 		temp = *h;
-		*h = temp->next;
+		*h = (*h)->next;
 		free(temp);
 		sum++;
 	}
