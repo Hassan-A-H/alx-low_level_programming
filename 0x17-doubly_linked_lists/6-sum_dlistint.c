@@ -7,17 +7,15 @@
  *
  * Return: if the list is empty, return 0
  */
-
 int sum_dlistint(dlistint_t *head)
 {
-
 	int sum = 0;
-	dlistint_t *i;
+	dlistint_t *cur = head;
 
-	for (i = head; i != NULL; i = i->next)
+	while (cur)
 	{
-		sum += i->n;
+		sum = sum + cur->n;
+		cur = cur->next;
 	}
-
 	return (sum);
 }
