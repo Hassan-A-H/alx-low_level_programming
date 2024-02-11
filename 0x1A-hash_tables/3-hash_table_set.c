@@ -15,29 +15,31 @@ void free_table(hash_table_t *table);
  */
 int hash_table_set(hash_table_t *ht, const char *key, const char *value)
 {
-	hash_node_t *current_node;
+	hash_node_t *current_node, *new_node;
 	unsigned long int index;
 
 	if (ht == NULL || key == NULL || *key == '\0' || value == NULL)
 		return (0);
 
 	index = key_index((const unsigned char *)key, ht->size);
-	current_node = hash_node(key, value);
-	if (ht->array[index])
+	new_node = hash_node(key, value);
+	current_node = ht->array[index];
+	while (current_node)
 	{
 		if (strcmp(current_node->key, key) == 0)
 		{
-			strcpy(ht->array[index]->value, value);
+			strcpy(current_node->value, value);
 			return (1);
 		}
 		else
 		{
-			current_node->next = ht->array[index];
-			ht->array[index] = current_node;
+			new_node->next = current_node;
+			ht->array[index] = new_node;
 			return (1);
 		}
+		current_node = current_node->next;
 	}
-	ht->array[index] = current_node;
+	ht->array[index] = new_node;
 	return (1);
 }
 
@@ -64,38 +66,4 @@ hash_node_t *hash_node(const char *key, const char *value)
 	strcpy(new_node->key, key);
 	strcpy(new_node->value, value);
 	return (new_node);
-}
-
-/**
- * free_node - Deallocate node.
- *
- * @node: To be freed
- * Return: Nothing
- */
-void free_node(hash_node_t *node)
-{
-	free(node->key);
-	free(node->value);
-	free(node);
-}
-
-/**
- * free_table - Deallocate table.
- *
- * @table: To be freed
- * Return: Nothing
- */
-void free_table(hash_table_t *table)
-{
-	hash_node_t *temp;
-	unsigned long int i;
-
-	for (i = 0; i < table->size; i++)
-	{
-		temp = table->array[i];
-		if (temp)
-			free_node(temp);
-	}
-	free(table->array);
-	free(table);
 }
