@@ -65,8 +65,8 @@ hash_node_t *hash_node(const char *key, const char *value)
 	hash_node_t *new_node;
 
 	new_node = malloc(sizeof(hash_node_t));
-	new_node->key = malloc(sizeof(strlen(key) + 1));
-	new_node->value = malloc(sizeof(strlen(value) + 1));
+	new_node->key = malloc(strlen(key) + 1);
+	new_node->value = malloc(strlen(value) + 1);
 	new_node->next = NULL;
 	strcpy(new_node->key, key);
 	strcpy(new_node->value, value);
