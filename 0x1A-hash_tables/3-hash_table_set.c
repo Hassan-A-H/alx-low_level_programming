@@ -22,28 +22,21 @@ int hash_table_set(hash_table_t *ht, const char *key, const char *value)
 		return (0);
 
 	index = key_index((const unsigned char *)key, ht->size);
-
+	current_node = hash_node(key, value);
 	if (ht->array[index])
 	{
-		if (strcmp(ht->array[index]->key, key) == 0)
+		if (strcmp(current_node->key, key) == 0)
 		{
 			strcpy(ht->array[index]->value, value);
 			return (1);
 		}
 		else
 		{
-			current_node = hash_node(key, value);
-			if (current_node == NULL)
-				return (0);
-
 			current_node->next = ht->array[index];
 			ht->array[index] = current_node;
 			return (1);
 		}
 	}
-	current_node = hash_node(key, value);
-	if (current_node == NULL)
-		return (0);
 	ht->array[index] = current_node;
 	return (1);
 }
@@ -59,8 +52,14 @@ hash_node_t *hash_node(const char *key, const char *value)
 	hash_node_t *new_node;
 
 	new_node = malloc(sizeof(hash_node_t));
+	if (new_node == NULL)
+		return (NULL);
 	new_node->key = malloc(strlen(key) + 1);
+	if (new_node->key == NULL)
+		return (NULL);
 	new_node->value = malloc(strlen(value) + 1);
+	if (new_node->value == NULL)
+		return (NULL);
 	new_node->next = NULL;
 	strcpy(new_node->key, key);
 	strcpy(new_node->value, value);
