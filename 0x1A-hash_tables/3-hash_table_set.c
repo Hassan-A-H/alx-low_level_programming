@@ -1,5 +1,6 @@
 #include "hash_tables.h"
 
+hash_node_t *hash_node(const char *key, const char *value);
 /**
  * hash_table_set - Add or update an element in a hash table.
  * @ht: A pointer to the hash table.
@@ -11,43 +12,58 @@
  */
 int hash_table_set(hash_table_t *ht, const char *key, const char *value)
 {
-	hash_node_t *new;
-	char *value_copy;
-	unsigned long int index, i;
+	hash_node_t *current_node, *new_node;
+	unsigned long int index;
 
 	if (ht == NULL || key == NULL || *key == '\0' || value == NULL)
 		return (0);
 
-	value_copy = strdup(value);
-	if (value_copy == NULL)
-		return (0);
-
 	index = key_index((const unsigned char *)key, ht->size);
-	for (i = index; ht->array[i]; i++)
+	current_node = ht->array[index];
+
+	while (current_node != NULL)
 	{
-		if (strcmp(ht->array[i]->key, key) == 0)
+		if (strcmp(current_node->key, key) == 0)
 		{
-			free(ht->array[i]->value);
-			ht->array[i]->value = value_copy;
+			strcpy(current_node->value, value);
 			return (1);
 		}
+		current_node = current_node->next;
 	}
 
-	new = malloc(sizeof(hash_node_t));
-	if (new == NULL)
-	{
-		free(value_copy);
+	new_node = hash_node(key, value);
+	if (new_node == NULL)
 		return (0);
-	}
-	new->key = strdup(key);
-	if (new->key == NULL)
-	{
-		free(new);
-		return (0);
-	}
-	new->value = value_copy;
-	new->next = ht->array[index];
-	ht->array[index] = new;
-
+	new_node->next = ht->array[index];
+	ht->array[index] = new_node;
 	return (1);
+}
+
+/**
+ * hash_node - create new node
+ * @key: The key cannot be an empty string.
+ * @value: The value associated with key.
+ * Return: A pointer to newly created node
+ */
+hash_node_t *hash_node(const char *key, const char *value)
+{
+	hash_node_t *new_node;
+	new_node = malloc(sizeof(hash_node_t));
+	if (new_node == NULL)
+		return (NULL);
+	new_node->key = strdup(key);
+	if (new_node->key == NULL)
+	{
+		free(new_node);
+		return (NULL);
+	}
+	new_node->value = strdup(value);
+	if (new_node->value == NULL)
+	{
+		free(new_node->key);
+		free(new_node);
+		return (NULL);
+	}
+	new_node->next = NULL;
+	return (new_node);
 }
