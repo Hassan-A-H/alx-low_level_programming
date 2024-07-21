@@ -1,38 +1,55 @@
-
 #include "search_algos.h"
+#include <math.h>
+
+int min_value(int num1, int num2);
 
 /**
- * jump_search - function that searches for a value
- * in a sorted array of integers
+ * jump_search - Searches value in array of ints using the Jump search algo
  *
- * @array: a pointer to the first element of the array to search in
- * @size:  the number of elements in array
- * @value: is the value to search for
- * Return: the first index where value is located
+ * @array: Array to search
+ *
+ * @size: Size of the array
+ *
+ * @value: Value to search
+ *
+ * Return: First index where value is located or -1 for NULL array
  */
 
 int jump_search(int *array, size_t size, int value)
 {
-	size_t i, step, jump;
+	/* Define jump number by square root of size */
+	int jump = sqrt(size);
+	int index = 0;
 
-	if (array == NULL || size == 0)
-		return (-1);
-
-	step = sqrt(size);
-
-	for (i = jump = 0; jump < size && array[jump] < value;)
+	/* Check inputs */
+	if (!array)
 	{
-		printf("Value checked array [%ld] = [%d]\n", jump, array[jump]);
-		i = jump;
-		jump += step;
+		return (-1);
 	}
 
-	printf("Value found between indexes [%ld] and [%ld]\n", i, jump);
+	/* Find block of array where value is found in jump_step */
+	while (index < (int)size && array[index] < value)
+	{
+		printf("Value checked array[%d] = [%d]\n", index, array[index]);
+		index += jump;
+	}
 
-	jump = jump > size - 1 ? jump : size - 1;
-	for (; i < jump && array[i] < value; i++)
-		printf("Value checked array [%ld] = [%d]\n", i, array[i]);
-	printf("Value checked array [%ld] = [%d]\n", i, array[i]);
+	/* Set jumpsize to index at beginning of array block to search*/
+	index -= jump;
 
-	return (array[i] == value ? (int)i : -1);
+	printf("Value found between indexes [%d] and [%d]\n", index, index + jump);
+
+	/* Value found in block of size jump_step. Linearly find value */
+	while (index <= (index + jump) && index < (int)size)
+	{
+		printf("Value checked array[%d] = [%d]\n", index, array[index]);
+
+		/* Found return value at index */
+		if (array[index] == value)
+		{
+			return (index);
+		}
+		index++;
+	}
+	return (-1);
 }
